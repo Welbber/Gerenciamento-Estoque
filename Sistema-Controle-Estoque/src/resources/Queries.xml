@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+    <entry key="dmlSelect">
+        <![CDATA[
+            SELECT pk_codigo_estoque,
+                    quantidade_estoque,
+                    preco_estoque,
+                    tipo_movimentacao_estoque,
+                    data_estoque,
+                    fk_usuario,
+                    fk_produto
+                    FROM tbl_estoque
+                    WHERE fk_usuario = ?;
+         ]]>
+    </entry>
+
+    <entry key="dqlSelect">
+        <![CDATA[
+            SELECT SUM(quantidade_estoque) AS qtd_Produto_Movimentação
+            FROM tbl_estoque
+            WHERE fk_produto = ? AND tipo_movimentacao_estoque = ?;
+        ]]>
+    </entry>
+
+    <entry key="dmlSelectAll">
+        <![CDATA[
+            SELECT pk_codigo_estoque,
+            quantidade_estoque,
+            preco_estoque,
+            tipo_movimentacao_estoque,
+            data_estoque,
+            fk_usuario,
+            fk_produto
+            FROM tbl_estoque;
+        ]]>
+    </entry>
+
+    <entry key="dqlWhere">
+        <![CDATA[
+                SELECT pk_codigo_produto,
+                descricao,
+                valor
+                FROM tbl_produto
+                WHERE pk_codigo_produto = ?;
+        ]]>
+    </entry>
+
+    <entry key="dqlAno">
+        <![CDATA[
+            SELECT pk_codigo_estoque,
+            quantidade_estoque,
+            preco_estoque,
+            tipo_movimentacao_estoque,
+            data_estoque,
+            fk_usuario,
+            fk_produto,
+            FROM tbl_estoque AS te
+            INNER JOIN tbl_produto AS tp ON re.fk_produto = tp.pk_codigo_produto
+            WHERE STRFTIME('%Y',tbl_estoque.data_estoque) = CAST( ? AS TEXT);
+        ]]>
+    </entry>
+
+    <entry key="dqlAno">
+        <![CDATA[
+                INSERT INTO tbl_estoque(quantidade_estoque,
+                preco_estoque,
+                tipo_movimentacao_estoque,
+                data_estoque,
+                fk_usuario,
+                fk_produto)
+                VALUES(?,?,?,CURRENT_DATE,?,?)
+        ]]>
+    </entry>
+
+    <entry key="insertCadastraProduto">
+        <![CDATA[
+                INSERT INTO tbl_produto
+                (descricao,
+                valor)
+                VALUES(?,?);
+        ]]>
+    </entry>
+
+    <entry key="selectListaProdutos">
+        <![CDATA[
+                SELECT
+                pk_codigo_produto,
+                descricao,
+                valor
+                FROM tbl_produto;
+        ]]>
+    </entry>
+
+    <entry key="selectProduto">
+        <![CDATA[
+                SELECT
+                pk_codigo_produto,
+                descricao,
+                valor
+                FROM tbl_produto
+                WHERE pk_codigo_produto = ?;
+        ]]>
+    </entry>
+
+    <entry key="atualizaProduto">
+        <![CDATA[
+                UPDATE tbl_produto
+                SET descricao = ?
+                valor = ?
+                WHERE pk_codigo_produto = ?;
+        ]]>
+    </entry>
+
+    <entry key="insertUsuario">
+        <![CDATA[
+                INSERT INTO
+                tbl_usuario(
+                nome,
+                login,
+                senha)
+                VALUES(?,?,?);
+        ]]>
+    </entry>
+
+    <entry key="selectUsuario">
+        <![CDATA[
+                SELECT pk_codigo_usuario,
+                nome,
+                login,
+                senha
+                FROM tbl_usuario
+                WHERE pk_codigo_usuario = ?;
+        ]]>
+    </entry>
+
+    <entry key="updateUsuario">
+        <![CDATA[
+                UPDATE tbl_usuario SET
+                nome = ?,
+                login = ?,
+                senha = ?
+                WHERE pk_codigo_usuario = ?;
+        ]]>
+    </entry>
+
+    <entry key="autenticarUsuario">
+        <![CDATA[
+                SELECT pk_codigo_usuario,
+                nome,
+                login,
+                senha FROM tbl_usuario
+                WHERE login = ?
+                AND senha = ?;"
+        ]]>
+    </entry>
+</properties>
