@@ -30,27 +30,24 @@ import model.ModelProduto;
  * AQUI NO CASO E DA TABELA tbl_produtos;
  * @author SAMUE
  */
-public class ControlerTblProduto {
+public class ControllerTblProduto {
 
-   //variaveis necessarias
-   public DaoTblProduto daoProduto;
-   public ModelProduto produto;
-   public List<ModelProduto> produtos;
+   static DaoTblProduto daoProduto;
+   static ModelProduto produto;
+   static List<ModelProduto> listaProdutos;
    
    /**
     * Metodo que faz o controle de acesso a camada daoTblProduto, para acessar dados, ou inserir, na TBL_PRODUTO do banco de dados;
     * @param novoProduto
     * @return true(se cadastrou) false(erro no cadastro)
     */
-   public boolean controlerCadastraProduto(ModelProduto novoProduto) {
+   public boolean controllerCadastraProduto(ModelProduto novoProduto) {
        try {
-           //fazendo uma validação de dados para ver se os campos obrigatorios estão preenchidos 
-           //se estiverem vazios
            if(novoProduto.getDescricaoProduto().isEmpty() || novoProduto.getValorProduto() == 0) {
               return false; 
            }else{
-                this.daoProduto = new DaoTblProduto();
-                return this.daoProduto.daoCadastraProduto(novoProduto);    
+                daoProduto = new DaoTblProduto();
+                return daoProduto.daoCadastraProduto(novoProduto);
            }
        } catch (SQLException e) {
                 System.out.println("OCORREU UM ERRO AO CADASTRA UM NOVO PRODUTO\n METODO: daoCadastraProduto\n erro: " + e);
@@ -62,13 +59,13 @@ public class ControlerTblProduto {
     * Metodo que controla o acesso aos produtos cadastrados na tabela TBL_PRODUTO do banco de dados;
     * @return ListModelProduto(se existir)
     */
-   public List<ModelProduto> controlerGetListaProdutos() {
+   public List<ModelProduto> controllerGetListaProdutos() {
        try {
-           this.produtos = new ArrayList<>();
-           this.daoProduto = new DaoTblProduto();
-           this.produto = new ModelProduto();
-           this.produtos = this.daoProduto.daoGetListaProdutos();
-           return this.produtos;
+           listaProdutos = new ArrayList<>();
+           daoProduto = new DaoTblProduto();
+           produto = new ModelProduto();
+           listaProdutos = daoProduto.daoGetListaProdutos();
+           return listaProdutos;
        } catch (SQLException e) {
                System.out.println("OCORREU UM ERRO AO LISTAR PRODUTOS CADASTRADOS\n METODO: daoGetListaProduto\n erro: " + e);
                return null;
@@ -80,27 +77,26 @@ public class ControlerTblProduto {
     * @param codigoProduto
     * @return ModelProduto se existir
     */
-   public ModelProduto controlerGetProduto(int codigoProduto) {
+   public ModelProduto controllerGetProduto(int codigoProduto) {
        try {
-           this.daoProduto = new DaoTblProduto();
-           this.produto = new ModelProduto();
-           this.produto = this.daoProduto.daoGetProduto(codigoProduto);
-           return this.produto;
+           daoProduto = new DaoTblProduto();
+           produto = new ModelProduto();
+           produto = daoProduto.daoGetProduto(codigoProduto);
+           return produto;
        } catch (SQLException e) {
                System.out.println("OCORREU UM ERRO AO BUSCAR PRODUTO ATRAVES DE SEU CODIGO ID\n METODO: daoGetProduto\n erro: " + e);
                return null;
        }
    }
-    
     /**
      * Metdo que faz o controle de atualização de um produto na tbl_produto
      * @param produto
      * @return true se atualizou false se não
      */
-    public boolean controlerAtualizaProduto(ModelProduto produto) {
+    public boolean controllerAtualizaProduto(ModelProduto produto) {
         try {
-            this.daoProduto = new DaoTblProduto();
-            return this.daoProduto.daoAtualizaProduto(produto);
+            daoProduto = new DaoTblProduto();
+            return daoProduto.daoAtualizaProduto(produto);
         } catch (SQLException e) {
                 System.out.println("OCORREU UM ERRO AO atualizar PRODUTO\n METODO: daoAtualizarProduto\n erro: " + e);
                return false;
@@ -111,13 +107,13 @@ public class ControlerTblProduto {
      * @param idProduto
      * @return 
      */
-    public boolean controlerExcluirProduto(int idProduto) {
+    public boolean controllerExcluirProduto(int idProduto) {
         if(idProduto > 0) {
-          this.daoProduto = new DaoTblProduto();
+          daoProduto = new DaoTblProduto();
           try{
-              return this.daoProduto.daoExcluirProduto(idProduto);
-          }catch(SQLException ex) {
-                  System.out.println("erro na exclusão de um produto : " + ex);
+              return daoProduto.daoExcluirProduto(idProduto);
+          }catch(SQLException e) {
+                  System.out.println("erro na exclusão de um produto : " + e);
                   return false;
           }
         }else{

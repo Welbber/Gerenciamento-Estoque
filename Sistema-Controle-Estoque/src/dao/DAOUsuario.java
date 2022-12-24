@@ -95,7 +95,6 @@ public class DAOUsuario extends ConexaoSqLite{
             con = conectaBanco();//istanciando conexão
             ps = con.prepareStatement(sql);//preparando consulta
             rs = ps.executeQuery();//executando consulta
-            //o rs vai receber muitos dados, por isso temos que percorrer todo o rs para tratar os dados
             while(rs.next()) {
                   //enquanto tiver dados no rs, faça o seguinte
                   //popule um obejto usuario com os dados

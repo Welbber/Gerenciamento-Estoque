@@ -21,8 +21,7 @@ import dao.DaoTblEstoque;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import model.ModelEstoque;
 import model.ModelProduto;
 import model.ModelUsuario;
@@ -33,11 +32,10 @@ import model.ModelUsuario;
  *
  * @author SAMUE
  */
-public class ControlerTblEstoque {
+public class ControllerTblEstoque {
 
-    //variaveis esscencias
     private ModelProduto produto;
-    private List<ModelProduto> produtos;
+    private List<ModelProduto> listaProdutos;
     private DaoTblEstoque daoEstoque;
     private List<ModelEstoque> listaEstoque;
 
@@ -47,14 +45,14 @@ public class ControlerTblEstoque {
      *
      * @return
      */
-    public List<ModelProduto> controlerGetDescricaoProdutos() {
+    public List<ModelProduto> controllerGetDescricaoProdutos() {
         try {
             this.daoEstoque = new DaoTblEstoque();
-            this.produtos = new ArrayList<>();
-            this.produtos = this.daoEstoque.daoGetDescricaoProdutos();
-            return this.produtos;
+            this.listaProdutos = new ArrayList<>();
+            this.listaProdutos = this.daoEstoque.daoGetDescricaoProdutos();
+            return this.listaProdutos;
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar DESCRIÇÃO PRODUTOS NO METODO controlerGetDescriçãoProduto()" + e);
+            System.out.println("Erro ao buscar DESCRIÇÃO PRODUTOS NO METODO controllerGetDescriçãoProduto()" + e);
             return null;
         }
     }
@@ -67,15 +65,11 @@ public class ControlerTblEstoque {
      * @param novoModEstoque
      * @return
      */
-    public boolean controlerAddMovEstoque(ModelEstoque novoModEstoque) {
-        //uma operador de opções que vai verificar qual e a movimentação de estoque do usuario
+    public boolean controllerAddMovEstoque(ModelEstoque novoModEstoque) {
         switch (novoModEstoque.getTipo_movimentacao()) {
-            //movimentação de entrada no estoque
             case 0:
-                /*fazendo validação dos dados obrigatorios para poder ter uma movimentação de estoque*/
                 if (novoModEstoque.getFk_produto() >= 0 && novoModEstoque.getQuantidade() > 0 && novoModEstoque.getPreco() != 0.0 && novoModEstoque.getFk_usuario() >= 0) {
                     try {
-                        //apos a operação ser validada manda para a camada do banco de dados so armazenar a moviemntação no banco
                         this.daoEstoque = new DaoTblEstoque();
                         if (this.daoEstoque.daoSetEstoque(novoModEstoque)) {
                             return true;
@@ -86,13 +80,9 @@ public class ControlerTblEstoque {
                     }
                     break;
                 }
-            //movimentação de saida de produtos do estoque
             case 1:
-                //fazendo validação de uma movimentação de saida do estoque, verificando se todos os dados obrigatorios existem
                 if (novoModEstoque.getFk_produto() >= 0 && novoModEstoque.getQuantidade() > 0 && novoModEstoque.getPreco() != 0.0 && novoModEstoque.getFk_usuario() >= 0) {
                     try {
-                        //antes de enviar a movimentação para o banco de dados, verifico, se a quantidade de produtos de saida, vai ser, menor que a quantidade de produtos, no estoque minimo
-                        //movimentação aprovada, pode mandar ela para a camada de banco de dados fazer a verificação, se pode ser armazenada
                         this.daoEstoque = new DaoTblEstoque();
                         if (this.daoEstoque.daoSetEstoque(novoModEstoque)) {
                             return true;
@@ -108,7 +98,6 @@ public class ControlerTblEstoque {
             default:
                 return false;
         }
-        //não possui nenhuma movimentação
         return false;
     }
 
@@ -138,14 +127,13 @@ public class ControlerTblEstoque {
      * @param tipoMovimentacao
      * @return 
      */
-    public Integer controlerContaMovimentacao(int idProduto,int tipoMovimentacao) {
-      int quantidade_produto_movimentacao = -1;
-      //os ids que necessito para efetuar a contagem precisam ser validos
+    public Integer controllerContaMovimentacao(int idProduto,int tipoMovimentacao) {
+      int quantidadeProdutoMovimentacao = -1;
       if((idProduto > -1 && idProduto != 0) && (tipoMovimentacao > -1 && tipoMovimentacao <= 1)) {
           this.daoEstoque = new DaoTblEstoque();
              try {
-                    quantidade_produto_movimentacao = this.daoEstoque.daoContaMovimentacao(tipoMovimentacao, idProduto);
-                    return quantidade_produto_movimentacao;
+                    quantidadeProdutoMovimentacao = this.daoEstoque.daoContaMovimentacao(tipoMovimentacao, idProduto);
+                    return quantidadeProdutoMovimentacao;
              } catch (SQLException e) {
                  System.out.println("ocorreu um erro no metodo: controlerContaMovimentacao: " + e);
                  return -1;
@@ -159,7 +147,7 @@ public class ControlerTblEstoque {
      * metdo que faz verificações antes de retornas todas as movimentações de estoque efetuadas por todos os usuarios
      * @return uma list com todos os obejtos estoque com suas moviemntações
      */
-    public List<ModelEstoque> controlerGetEstoques() {
+    public List<ModelEstoque> controllerGetEstoques() {
        this.listaEstoque = new ArrayList<>();
        this.daoEstoque = new DaoTblEstoque();
         try {
@@ -188,7 +176,6 @@ public class ControlerTblEstoque {
                     return null;
            }
        }else{
-            //System.out.println("Ocorreu um erro no metodo controlerGetDetalhesProduto: id Passado para o metodo e invalido");
             return null;
        }
     }
@@ -200,9 +187,8 @@ public class ControlerTblEstoque {
         */
        public ModelUsuario controlerGetUsuario(int idUsuario) {
            if(idUsuario > -1 && idUsuario != 0) {
-                ModelUsuario user = new ModelUsuario();
                 ControllerUsuario controlaUsuario = new ControllerUsuario();
-                user = controlaUsuario.controlerBuscaUsuario(idUsuario);
+               ModelUsuario user = controlaUsuario.controlerBuscaUsuario(idUsuario);
                 return user;
            }else{
                return null;

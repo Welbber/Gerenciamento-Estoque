@@ -23,6 +23,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 import model.ModelUsuario;
 
@@ -79,27 +80,19 @@ public class ViewLogin extends javax.swing.JFrame {
         lblSenha.setText("SENHA");
 
         btnEntrarSistema.setForeground(new java.awt.Color(179, 149, 45));
-        btnEntrarSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_icones/entrar-certo.png"))); // NOI18N
+        btnEntrarSistema.setIcon(new javax.swing.ImageIcon(Objects.requireNonNull(getClass().getResource("/imagens_icones/entrar-certo.png")))); // NOI18N
         btnEntrarSistema.setText("ENTRAR!");
         btnEntrarSistema.setToolTipText("Entrar No Sistema");
         btnEntrarSistema.setPreferredSize(new java.awt.Dimension(48, 48));
-        btnEntrarSistema.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntrarSistemaActionPerformed(evt);
-            }
-        });
+        btnEntrarSistema.addActionListener(this::btnEntrarSistemaActionPerformed);
 
         btnSairSistema.setForeground(new java.awt.Color(179, 149, 45));
-        btnSairSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_icones/sair-certo.png"))); // NOI18N
+        btnSairSistema.setIcon(new javax.swing.ImageIcon(Objects.requireNonNull(getClass().getResource("/imagens_icones/sair-certo.png")))); // NOI18N
         btnSairSistema.setText("VOLTAR!");
         btnSairSistema.setToolTipText("Sair Do Sistema");
         btnSairSistema.setMinimumSize(new java.awt.Dimension(48, 48));
         btnSairSistema.setPreferredSize(new java.awt.Dimension(48, 48));
-        btnSairSistema.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairSistemaActionPerformed(evt);
-            }
-        });
+        btnSairSistema.addActionListener(this::btnSairSistemaActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,39 +168,24 @@ public class ViewLogin extends javax.swing.JFrame {
                 ViewPrincipalResponsiva telaPrincipal = new ViewPrincipalResponsiva(usuario);
                 telaPrincipal.setVisible(true);
                 dispose();
-                //ViewPrincipal telaPrincipalSistema = new ViewPrincipal(usuario);
-                //telaPrincipalSistema.setVisible(true);
-                //dispose();
-               // JOptionPane.showMessageDialog(this,"Logado Com Sucesso!","Login Efetuado Com Sucesso",JOptionPane.INFORMATION_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(this,"Usuario e Senha Não Cadastrados!","Erro ao Fazer Logon",JOptionPane.ERROR_MESSAGE);
             }
        }
        
-    }//GEN-LAST:event_btnEntrarSistemaActionPerformed
-    
-    /**
-     * Metodo que seta fontes exernas no frame
-     * Seta uma Fonte de Destaque para uma mensagem inicial, fonte = GrutchShaded.ttf;
-     * SETA UMA FONTE PADRÃO NO FRAME = PlayfairDisplay-ExtraBold.ttf;
-     */
+    }
+
     private void setFonteExterna() {
         try {
-            //carregando a fonte de destaque que mostra uma mensagem inicial, uma fonte bem destacada
             fonteShaded = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("fontes_externas/GrutchShaded.ttf"));
-            //caregando a fonte padrão do frame
             fontePlay = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("fontes_externas/PlayfairDisplay-ExtraBold.ttf"));
         } catch (IOException | FontFormatException e) {
             System.out.println("Não carregou as fonte externa padrão da tela de Login! " + e);
         }
-        //setando a fonte nos componentes com o estilo e tamanho
-        //setando fonte padrão na label que mostra mensagem de destaque 
         lblTitulo.setFont(fonteShaded.deriveFont(Font.PLAIN,35));
         lblTitulo.setOpaque(true);
-        //setando fonte nos labels de informações de caixas de textos
         lblLogin.setFont(fontePlay.deriveFont(Font.PLAIN,20));
         lblSenha.setFont(fontePlay.deriveFont(Font.PLAIN,20));
-        //SETANDO FONTE NOS BOTÕES
         btnEntrarSistema.setFont(fontePlay.deriveFont(Font.PLAIN,17));
         btnSairSistema.setFont(fontePlay.deriveFont(Font.PLAIN,17));
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -217,7 +195,6 @@ public class ViewLogin extends javax.swing.JFrame {
     }
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrarSistema;
     private javax.swing.JButton btnSairSistema;
     private javax.swing.JPanel jPanel1;
@@ -226,7 +203,6 @@ public class ViewLogin extends javax.swing.JFrame {
     private javax.swing.JLabel lblSenha;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtLogin;
-    // End of variables declaration//GEN-END:variables
 
     private static class setVisible {
 

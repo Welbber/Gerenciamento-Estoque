@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package controller;
 
 import dao.DAOUsuario;
-import java.util.ArrayList;
 import java.util.List;
 import model.ModelUsuario;
 
@@ -28,7 +27,6 @@ import model.ModelUsuario;
  */
 
 public class ControllerUsuario {
-   //variaveis necessaria
    private DAOUsuario user;
    private ModelUsuario usuario;
    
@@ -68,10 +66,10 @@ public class ControllerUsuario {
    */
   public ModelUsuario controlerBuscaUsuario(int codigoUser) {
     this.user = new DAOUsuario();
-    //verifico se o usuario realmente existe no banco, vendo a validação dele aqui no controler
      if(this.user.daoBuscarUsuario(codigoUser) != null) {
          usuario = new ModelUsuario();
-         return usuario = this.user.daoBuscarUsuario(codigoUser);
+         usuario = this.user.daoBuscarUsuario(codigoUser);
+         return usuario;
     }else{
          return null;
      }   
@@ -94,6 +92,7 @@ public class ControllerUsuario {
   public ModelUsuario controlerAutenticarUsuarioLogin(String login,String senha) {
      this.usuario = new ModelUsuario();
      this.user = new DAOUsuario();
-     return this.usuario = this.user.daoAutenticarUsuario(login, senha);
+      this.usuario = this.user.daoAutenticarUsuario(login, senha);
+     return this.usuario;
   }
 }
